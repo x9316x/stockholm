@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Student Page</title>
+    <title>Student Progress</title>
 </head>
 <body>
-<h1>Welcome, Student!</h1>
-<p>This page is for students only.</p>
+<h1>Добро пожаловать, студент!</h1>
+
+<p>Уроков пройдено: <span th:text="${progress.lessonsCompleted}"></span></p>
+<p>Заданий выполнено: <span th:text="${progress.tasksCompleted}"></span></p>
 </body>
 </html>

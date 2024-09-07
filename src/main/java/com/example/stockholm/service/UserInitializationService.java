@@ -2,25 +2,34 @@ package com.example.stockholm.service;
 
 import com.example.stockholm.model.User;
 import com.example.stockholm.model.Role;
+import com.example.stockholm.model.StudentProgress;
 import com.example.stockholm.repository.UserRepository;
+import com.example.stockholm.repository.StudentProgressRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.PostConstruct;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserInitializationService {
 
     private final UserRepository userRepository;
+    private final StudentProgressRepository progressRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserInitializationService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserInitializationService(UserRepository userRepository,
+                                     StudentProgressRepository progressRepository,
+                                     PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.progressRepository = progressRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
     public void init() {
+        // Создаём админа
         if (userRepository.findByUsername("admin").isEmpty()) {
             User admin = new User();
             admin.setUsername("admin");
@@ -29,21 +38,33 @@ public class UserInitializationService {
             userRepository.save(admin);
         }
 
-        if (userRepository.findByUsername("student").isEmpty()) {
-            User student = new User();
-            student.setUsername("student");
-            student.setPassword(passwordEncoder.encode("student123"));
-            student.setRole(Role.STUDENT);
-            userRepository.save(student);
-        }
+        // Динамическое создание студентов и их прогресса
+        List<String> studentNames = List.of("student", "student2");  // Можно расширить список
+        List<Integer> lessonsCompleted = List.of(2, 3);  // Пример прогресса для студентов
+        List<Integer> tasksCompleted = List.of(5, 7);    // Пример заданий для студентов
 
-        if (userRepository.findByUsername("student2").isEmpty()) {
-            User student2 = new User();
-            student2.setUsername("student2");
-            student2.setPassword(passwordEncoder.encode("student234"));
-            student2.setRole(Role.STUDENT); // Та же роль STUDENT
-            userRepository.save(student2);
-        }
+        for (int i = 0; i < studentNames.size(); i++) {
+            String studentName = studentNames.get(i);
 
+            Optional<User> studentOptional = userRepository.findByUsername(studentName);
+
+            User student;
+            if (studentOptional.isEmpty()) {
+                // Создаём нового студента
+                student = new User();
+                student.setUsername(studentName);
+                student.setPassword(passwordEncoder.encode(studentName + "pass"));  // Пример пароля
+                student.setRole(Role.STUDENT);
+                userRepository.save(student);
+            } else {
+                student = studentOptional.get();
+            }
+
+            // Создаём запись о прогрессе, если её нет
+            if (progressRepository.findByUser(student).isEmpty()) {
+                StudentProgress progress = new StudentProgress(student, lessonsCompleted.get(i), tasksCompleted.get(i));
+                progressRepository.save(progress);
+            }
+        }
     }
 }

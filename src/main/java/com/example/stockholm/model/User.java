@@ -1,14 +1,6 @@
 package com.example.stockholm.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -27,6 +19,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    // Новое поле для связи с прогрессом студента
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private StudentProgress studentProgress;
 
     // Геттеры и сеттеры
 
@@ -60,5 +56,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    // Новый геттер и сеттер для прогресса студента
+    public StudentProgress getStudentProgress() {
+        return studentProgress;
+    }
+
+    public void setStudentProgress(StudentProgress studentProgress) {
+        this.studentProgress = studentProgress;
     }
 }
