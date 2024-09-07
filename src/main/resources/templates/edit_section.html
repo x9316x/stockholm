@@ -5,9 +5,12 @@
 </head>
 <body>
 <h1>Редактировать раздел</h1>
-<form action="/admin/sections/edit" method="post" th:action="@{/admin/sections/edit}">
-    <label for="sectionName">Название раздела:</label>
-    <input type="text" id="sectionName" name="sectionName" th:value="${section.name}" required><br>
+<form action="#" th:action="@{'/admin/sections/edit/' + ${section.id}}" method="post">
+    <label for="sectionTitle">Название раздела:</label>
+    <input type="text" id="sectionTitle" name="title" th:value="${section.title}" required><br>
+
+    <label for="sectionDescription">Описание раздела:</label>
+    <textarea id="sectionDescription" name="description" required th:text="${section.description}"></textarea><br>
 
     <!-- CSRF токен -->
     <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>

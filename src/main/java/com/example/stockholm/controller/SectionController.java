@@ -28,7 +28,7 @@ public class SectionController {
         return "add_section"; // шаблон для добавления раздела
     }
 
-    // Явно указываем параметры формы
+    // Добавление раздела
     @PostMapping("/add")
     public String addSection(@RequestParam String title, @RequestParam String description) {
         Section section = new Section();
@@ -38,6 +38,7 @@ public class SectionController {
         return "redirect:/admin/sections";
     }
 
+    // Показ формы для редактирования
     @GetMapping("/edit/{id}")
     public String showEditSectionForm(@PathVariable Long id, Model model) {
         Section section = sectionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid section Id:" + id));
@@ -45,6 +46,7 @@ public class SectionController {
         return "edit_section"; // шаблон для редактирования раздела
     }
 
+    // Обновление раздела
     @PostMapping("/edit/{id}")
     public String editSection(@PathVariable Long id, @RequestParam String title, @RequestParam String description) {
         Section section = sectionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid section Id:" + id));
@@ -54,7 +56,7 @@ public class SectionController {
         return "redirect:/admin/sections";
     }
 
-    // Изменяем метод на POST для поддержки формы удаления
+    // Удаление раздела через POST запрос
     @PostMapping("/delete/{id}")
     public String deleteSection(@PathVariable Long id) {
         sectionRepository.deleteById(id);
