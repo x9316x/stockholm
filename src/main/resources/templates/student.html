@@ -9,9 +9,27 @@
 <p>Уроков пройдено: <span th:text="${progress.lessonsCompleted}"></span></p>
 <p>Заданий выполнено: <span th:text="${progress.tasksCompleted}"></span></p>
 
+<h2>Доступные разделы:</h2>
+<ul>
+    <li th:each="section : ${sections}">
+        <span th:text="${section.title}">Section Title</span> -
+        <span th:text="${section.description}">Section Description</span>
+
+        <!-- Проверяем, пройден ли раздел -->
+        <span th:if="${progress.completedSections.contains(section)}"> (Пройдено) </span>
+        <span th:if="${!progress.completedSections.contains(section)}"> (Не пройдено) </span>
+
+        <!-- Форма для переключения состояния раздела (пройдено/не пройдено) -->
+        <form th:action="@{/student/complete-section}" method="post" style="display:inline;">
+            <input type="hidden" name="sectionId" th:value="${section.id}"/>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+            <input type="submit" th:value="${progress.completedSections.contains(section) ? 'Отметить как не пройдено' : 'Отметить как пройдено'}"/>
+        </form>
+    </li>
+</ul>
+
 <!-- Кнопка выхода -->
 <form action="/logout" method="post">
-    <!-- CSRF-токен для защиты -->
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <input type="submit" value="Выйти">
 </form>
