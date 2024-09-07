@@ -15,15 +15,14 @@
         <span th:text="${section.title}">Section Title</span> -
         <span th:text="${section.description}">Section Description</span>
 
-        <!-- Проверяем, пройден ли раздел -->
-        <span th:if="${progress.completedSections.contains(section)}"> (Пройдено) </span>
-        <span th:if="${!progress.completedSections.contains(section)}"> (Не пройдено) </span>
+        <!-- Проверяем, пройден ли раздел через карту статусов -->
+        <span th:text="${sectionStatusMap[section.id]}"></span>
 
         <!-- Форма для переключения состояния раздела (пройдено/не пройдено) -->
         <form th:action="@{/student/complete-section}" method="post" style="display:inline;">
             <input type="hidden" name="sectionId" th:value="${section.id}"/>
             <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-            <input type="submit" th:value="${progress.completedSections.contains(section) ? 'Отметить как не пройдено' : 'Отметить как пройдено'}"/>
+            <input type="submit" th:value="${sectionStatusMap[section.id] == 'Пройдено' ? 'Отметить как не пройдено' : 'Отметить как пройдено'}"/>
         </form>
     </li>
 </ul>

@@ -13,6 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -45,7 +48,21 @@ public class StudentController {
             StudentProgress progress = progressOptional.orElse(new StudentProgress(user, 0, 0));
             model.addAttribute("progress", progress);
 
-            model.addAttribute("sections", sectionRepository.findAll());
+            // Получаем все разделы
+            List<Section> sections = sectionRepository.findAll();
+            model.addAttribute("sections", sections);
+
+            // Создаем карту для статуса каждого раздела
+            Map<Long, String> sectionStatusMap = new HashMap<>();
+            for (Section section : sections) {
+                Optional<StudentCompletedSection> completedSection = studentCompletedSectionRepository.findByStudentAndSection(user, section);
+                if (completedSection.isPresent() && completedSection.get().isCompleted()) {
+                    sectionStatusMap.put(section.getId(), "Пройдено");
+                } else {
+                    sectionStatusMap.put(section.getId(), "Не пройдено");
+                }
+            }
+            model.addAttribute("sectionStatusMap", sectionStatusMap);
         }
 
         return "student";
