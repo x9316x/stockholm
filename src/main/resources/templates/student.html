@@ -8,5 +8,13 @@
 
 <p>Уроков пройдено: <span th:text="${progress.lessonsCompleted}"></span></p>
 <p>Заданий выполнено: <span th:text="${progress.tasksCompleted}"></span></p>
+
+<!-- Кнопка выхода -->
+<form action="/logout" method="post">
+    <!-- CSRF-токен для защиты -->
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <input type="submit" value="Выйти">
+</form>
+
 </body>
 </html>
