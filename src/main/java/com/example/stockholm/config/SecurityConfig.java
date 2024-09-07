@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/student/**").hasRole("STUDENT")
+                        .requestMatchers("/admin/sections/**").hasRole("ADMIN") // Защита для разделов
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

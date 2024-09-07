@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Section</title>
+</head>
+<body>
+<h1>Редактировать раздел</h1>
+<form action="/admin/sections/edit" method="post" th:action="@{/admin/sections/edit}">
+    <label for="sectionName">Название раздела:</label>
+    <input type="text" id="sectionName" name="sectionName" th:value="${section.name}" required><br>
+
+    <!-- CSRF токен -->
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+
+    <input type="submit" value="Сохранить изменения">
+</form>
+
+<!-- Кнопка выхода -->
+<form action="/logout" method="post" th:action="@{/logout}">
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+    <input type="submit" value="Выйти">
+</form>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Section</title>
+</head>
+<body>
+<h1>Добавить новый раздел</h1>
+<form action="/admin/sections/add" method="post" th:action="@{/admin/sections/add}">
+    <label for="title">Название раздела:</label>
+    <input type="text" id="title" name="title" required><br>
+
+    <label for="description">Описание раздела:</label>
+    <input type="text" id="description" name="description" required><br>
+
+    <!-- CSRF токен -->
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+
+    <input type="submit" value="Добавить раздел">
+</form>
+
+<!-- Кнопка выхода -->
+<form action="/logout" method="post" th:action="@{/logout}">
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+    <input type="submit" value="Выйти">
+</form>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sections List</title>
+</head>
+<body>
+<h1>Список разделов</h1>
+
+<a href="/admin/sections/add">Добавить раздел</a>
+
+<ul>
+    <li th:each="section : ${sections}">
+        <span th:text="${section.title}">Section Title</span> - <span th:text="${section.description}">Section Description</span>
+        <a th:href="@{'/admin/sections/edit/' + ${section.id}}">Редактировать</a>
+
+        <!-- Форма для удаления -->
+        <form th:action="@{'/admin/sections/delete/' + ${section.id}}" method="post" style="display:inline;">
+            <!-- Добавляем скрытое поле для метода POST -->
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+            <input type="submit" value="Удалить">
+        </form>
+    </li>
+</ul>
+
+<!-- Кнопка выхода -->
+<form action="/logout" method="post" th:action="@{/logout}">
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+    <input type="submit" value="Выйти">
+</form>
+
+</body>
+</html>
