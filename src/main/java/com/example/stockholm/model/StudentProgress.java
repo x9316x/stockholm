@@ -18,14 +18,8 @@ public class StudentProgress {
     private int lessonsCompleted;
     private int tasksCompleted;
 
-    // Добавляем связь с Section
-    @ManyToMany
-    @JoinTable(
-            name = "student_completed_sections",
-            joinColumns = @JoinColumn(name = "student_progress_id"),
-            inverseJoinColumns = @JoinColumn(name = "section_id")
-    )
-    private Set<Section> completedSections = new HashSet<>();
+    @OneToMany(mappedBy = "studentProgress", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<StudentCompletedSection> completedSections = new HashSet<>();
 
     public StudentProgress() {
     }
@@ -69,21 +63,21 @@ public class StudentProgress {
         this.tasksCompleted = tasksCompleted;
     }
 
-    public Set<Section> getCompletedSections() {
+    public Set<StudentCompletedSection> getCompletedSections() {
         return completedSections;
     }
 
-    public void setCompletedSections(Set<Section> completedSections) {
+    public void setCompletedSections(Set<StudentCompletedSection> completedSections) {
         this.completedSections = completedSections;
     }
 
-    public void addCompletedSection(Section section) {
-        this.completedSections.add(section);
-        this.lessonsCompleted = completedSections.size(); // обновляем количество завершенных уроков
+    public void addCompletedSection(StudentCompletedSection completedSection) {
+        this.completedSections.add(completedSection);
+        this.lessonsCompleted = (int) this.completedSections.stream().filter(StudentCompletedSection::isCompleted).count();
     }
 
-    public void removeCompletedSection(Section section) {
-        this.completedSections.remove(section);
-        this.lessonsCompleted = completedSections.size(); // обновляем количество завершенных уроков
+    public void removeCompletedSection(StudentCompletedSection completedSection) {
+        this.completedSections.remove(completedSection);
+        this.lessonsCompleted = (int) this.completedSections.stream().filter(StudentCompletedSection::isCompleted).count();
     }
 }

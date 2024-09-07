@@ -19,15 +19,20 @@ public class StudentCompletedSection implements Serializable {
     @JoinColumn(name = "section_id", nullable = false)
     private Section section;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_progress_id", nullable = false)
+    private StudentProgress studentProgress;  // Новое поле для связи с StudentProgress
+
     @Column(nullable = false)
     private boolean completed;
 
     public StudentCompletedSection() {
     }
 
-    public StudentCompletedSection(User student, Section section, boolean completed) {
+    public StudentCompletedSection(User student, Section section, StudentProgress studentProgress, boolean completed) {
         this.student = student;
         this.section = section;
+        this.studentProgress = studentProgress;
         this.completed = completed;
     }
 
@@ -63,5 +68,13 @@ public class StudentCompletedSection implements Serializable {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public StudentProgress getStudentProgress() {
+        return studentProgress;
+    }
+
+    public void setStudentProgress(StudentProgress studentProgress) {
+        this.studentProgress = studentProgress;
     }
 }
