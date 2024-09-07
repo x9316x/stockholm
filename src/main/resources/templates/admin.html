@@ -1,11 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <title>Admin Page</title>
 </head>
 <body>
-<h1>Welcome, Admin!</h1>
-<p>This page is for administrators only.</p>
+<h1>Admin Panel</h1>
+
+<h2>Добавить нового пользователя</h2>
+<form action="/admin/addUser" method="post" th:action="@{/admin/addUser}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>  <!-- CSRF токен -->
+
+    <label for="username">Имя пользователя:</label>
+    <input type="text" id="username" name="username" required><br>
+
+    <label for="password">Пароль:</label>
+    <input type="password" id="password" name="password" required><br>
+
+    <label for="role">Роль:</label>
+    <select id="role" name="role">
+        <option value="STUDENT">STUDENT</option>
+        <option value="ADMIN">ADMIN</option>
+    </select><br>
+
+    <input type="submit" value="Добавить пользователя">
+</form>
+
+<h2>Список пользователей</h2>
+<ul>
+    <li th:each="user : ${users}">
+        <span th:text="${user.username}">Username</span> - <span th:text="${user.role}">Role</span>
+    </li>
+</ul>
 </body>
 </html>
