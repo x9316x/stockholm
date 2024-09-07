@@ -1,6 +1,7 @@
 package com.example.stockholm.model;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "sections")
@@ -15,6 +16,10 @@ public class Section {
 
     @Column(nullable = false)
     private String description;
+
+    // Добавляем связь с StudentCompletedSection
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<StudentCompletedSection> completedSections;
 
     public Section() {
     }
@@ -48,5 +53,13 @@ public class Section {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<StudentCompletedSection> getCompletedSections() {
+        return completedSections;
+    }
+
+    public void setCompletedSections(List<StudentCompletedSection> completedSections) {
+        this.completedSections = completedSections;
     }
 }
