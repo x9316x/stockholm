@@ -19,15 +19,18 @@ import java.util.Optional;
 public class StudentController {
 
     private final StudentProgressRepository studentProgressRepository;
+    private final StudentCompletedSectionRepository studentCompletedSectionRepository;
     private final UserRepository userRepository;
     private final SectionRepository sectionRepository;
-    private final StudentCompletedSectionRepository studentCompletedSectionRepository;
 
-    public StudentController(StudentProgressRepository studentProgressRepository, UserRepository userRepository, SectionRepository sectionRepository, StudentCompletedSectionRepository studentCompletedSectionRepository) {
+    public StudentController(StudentProgressRepository studentProgressRepository,
+                             StudentCompletedSectionRepository studentCompletedSectionRepository,
+                             UserRepository userRepository,
+                             SectionRepository sectionRepository) {
         this.studentProgressRepository = studentProgressRepository;
+        this.studentCompletedSectionRepository = studentCompletedSectionRepository;
         this.userRepository = userRepository;
         this.sectionRepository = sectionRepository;
-        this.studentCompletedSectionRepository = studentCompletedSectionRepository;
     }
 
     @GetMapping("/student")
@@ -55,24 +58,40 @@ public class StudentController {
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
+
+            // Получаем или создаём новый объект StudentProgress
             StudentProgress progress = studentProgressRepository.findByUser(user).orElse(new StudentProgress(user, 0, 0));
 
-            // Сначала сохраняем StudentProgress, если он еще не сохранен
+            // Если это новый прогресс, сохраняем его в базу данных
             if (progress.getId() == null) {
                 studentProgressRepository.save(progress);
             }
 
-            Section section = sectionRepository.findById(sectionId).orElseThrow(() -> new IllegalArgumentException("Invalid section Id:" + sectionId));
+            Section section = sectionRepository.findById(sectionId)
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid section Id: " + sectionId));
 
-            Optional<StudentCompletedSection> completedSectionOptional = studentCompletedSectionRepository.findByStudentAndSection(user, section);
+            Optional<StudentCompletedSection> completedSectionOptional =
+                    studentCompletedSectionRepository.findByStudentAndSection(user, section);
+
             if (completedSectionOptional.isPresent()) {
-                studentCompletedSectionRepository.delete(completedSectionOptional.get());
+                StudentCompletedSection completedSection = completedSectionOptional.get();
+                // Если раздел уже пройден, меняем статус на "не пройдено"
+                if (completedSection.isCompleted()) {
+                    completedSection.setCompleted(false);
+                    progress.removeCompletedSection(completedSection);
+                } else {
+                    // Если он не был пройден, снова меняем на "пройдено"
+                    completedSection.setCompleted(true);
+                    progress.addCompletedSection(completedSection);
+                }
             } else {
+                // Если запись не существует, создаём новую
                 StudentCompletedSection newCompletedSection = new StudentCompletedSection(user, section, progress, true);
                 studentCompletedSectionRepository.save(newCompletedSection);
                 progress.addCompletedSection(newCompletedSection);
             }
 
+            // Сохраняем изменения в прогрессе студента
             studentProgressRepository.save(progress);
         }
 
