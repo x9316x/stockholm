@@ -34,6 +34,13 @@
 <ul>
     <li th:each="user : ${users}">
         <span th:text="${user.username}">Username</span> - <span th:text="${user.role}">Role</span>
+
+        <!-- Форма для удаления пользователя -->
+        <form th:action="@{/admin/users/delete}" method="post" style="display:inline;">
+            <input type="hidden" name="userId" th:value="${user.id}"/>
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+            <input type="submit" value="Удалить">
+        </form>
     </li>
 </ul>
 
