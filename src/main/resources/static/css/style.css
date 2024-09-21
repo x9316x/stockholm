@@ -30,6 +30,35 @@ body.login-body, body.student-body {
     border: none;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    padding: 40px; /* Увеличенные отступы внутри формы */
+    width: 100%;
+    max-width: 500px; /* Увеличил максимальную ширину формы */
+    text-align: center;
+}
+
+.login-card .form-control {
+    margin-bottom: 20px; /* Отступы между полями формы */
+}
+
+.d-grid .btn {
+    padding: 10px 20px; /* Увеличил отступы внутри кнопки */
+}
+
+/* Стили для страницы студента */
+body.student-body {
+    background-color: #F5E8E4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.student-body .login-card {
+    background-color: #F3E0D9;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
     padding: 30px;
     width: 100%;
     max-width: 700px;
@@ -49,26 +78,24 @@ body.login-body, body.student-body {
     flex-grow: 1;
 }
 
-/* Позиционирование кнопки */
 .section-actions {
     display: flex;
     align-items: center;
 }
 
-/* Стили для кнопки статуса */
-.btn-primary, .btn-status {
-    background-color: #B2917B; /* Светло-коричневый цвет кнопки */
+.btn-status {
+    background-color: #B2917B;
     border-color: #B2917B;
     color: #ffffff;
     border-radius: 6px;
     padding: 10px 20px;
     font-size: 16px;
-    width: 150px; /* Фиксированная ширина кнопки */
+    width: 150px;
     text-align: center;
 }
 
-.btn-primary:hover, .btn-status:hover {
-    background-color: #8A6B5C; /* Приглушённый коричневый при наведении */
+.btn-status:hover {
+    background-color: #8A6B5C;
     border-color: #8A6B5C;
 }
 
@@ -78,7 +105,6 @@ body.login-body, body.student-body {
     display: block;
 }
 
-/* Стили списка доступных разделов */
 .list-group-item {
     border: 1px solid #ddd;
     padding: 20px;
@@ -88,13 +114,11 @@ body.login-body, body.student-body {
     align-items: center;
 }
 
-/* Стили для пройденных разделов */
 .completed-section {
     background-color: #F3E0D9; /* Фон карточки для пройденных разделов */
     border-color: #E5C6C6; /* Лёгкий контраст для границ */
 }
 
-/* Стили для не пройденных разделов */
 .not-completed-section {
     background-color: #FFDAB9; /* Персиковый цвет для выделения */
     border-color: #EFA585; /* Более насыщенный персиковый для контраста */
