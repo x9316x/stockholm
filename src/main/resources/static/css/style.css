@@ -77,6 +77,14 @@ a.btn:hover {
     border-color: inherit;
 }
 
+/* Деактивация кнопки при пройденном уроке */
+a.lesson-completed {
+    pointer-events: none; /* Отключаем кликабельность */
+    cursor: default; /* Стрелка вместо руки */
+    background-color: #F3E0D9; /* Подстраиваем цвет под фон пройденного урока */
+    color: #4A2C2A; /* Темно-коричневый цвет текста */
+}
+
 /* Эффект для карточек разделов */
 .list-group-item {
     border: 1px solid #ddd;

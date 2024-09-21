@@ -34,9 +34,10 @@
 
                             <!-- Кнопка "Пройти урок"/"Урок пройден" -->
                             <div>
-                                <a th:href="@{'/section/video/' + ${section.id}}" class="btn btn-primary"
-                                   th:classappend="${sectionStatusMap[section.id] == 'Пройдено' ? 'disabled' : ''}">
-                                    <span th:text="${sectionStatusMap[section.id] == 'Пройдено' ? 'Урок пройден' : 'Пройти урок'}"></span>
+                                <a th:href="@{'/section/video/' + ${section.id}}"
+                                   class="btn btn-primary"
+                                   th:classappend="${sectionStatusMap[section.id] == 'Пройдено' ? 'lesson-completed' : ''}"
+                                   th:text="${sectionStatusMap[section.id] == 'Пройдено' ? 'Урок пройден' : 'Пройти урок'}">
                                 </a>
                             </div>
 
