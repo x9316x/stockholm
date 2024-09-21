@@ -29,20 +29,24 @@
                     <ul class="list-group">
                         <li th:each="section : ${sections}"
                             th:classappend="${sectionStatusMap[section.id] == 'Пройдено' ? 'completed-section' : 'not-completed-section'}"
-                            class="list-group-item d-flex justify-content-between align-items-center"
+                            class="list-group-item d-flex justify-content-between align-items-center position-relative"
                             th:style="${sectionStatusMap[section.id] == 'Пройдено' ? 'background-color: #F3E0D9;' : 'background-color: #FFDAB9;'}">
 
-                            <!-- Кнопка для открытия видео -->
-                            <form th:action="@{'/section/video/' + ${section.id}}" method="get" class="d-inline">
-                                <button type="submit" class="btn text-start p-0 m-0 section-button"
-                                        style="background: none; border: none; color: inherit; width: 100%;">
-                                    <span th:text="${section.title} + ' - ' + ${section.description}"></span>
-                                </button>
-                            </form>
+                            <!-- Кнопка "Пройти урок"/"Урок пройден" -->
+                            <div>
+                                <a th:href="@{'/section/video/' + ${section.id}}" class="btn btn-primary"
+                                   th:classappend="${sectionStatusMap[section.id] == 'Пройдено' ? 'disabled' : ''}">
+                                    <span th:text="${sectionStatusMap[section.id] == 'Пройдено' ? 'Урок пройден' : 'Пройти урок'}"></span>
+                                </a>
+                            </div>
 
-                            <div class="d-flex align-items-center section-actions">
+                            <div class="section-info" style="z-index: 2;">
+                                <span th:text="${section.title} + ' - ' + ${section.description}"></span>
+                            </div>
+
+                            <div class="d-flex align-items-center section-actions" style="z-index: 2;">
                                 <!-- Переключатель Пройдено/Не пройдено -->
-                                <form th:action="@{/student/complete-section}" method="post" class="d-inline">
+                                <form th:action="@{/student/complete-section}" method="post" class="d-inline" onclick="event.stopPropagation();">
                                     <input type="hidden" name="sectionId" th:value="${section.id}"/>
                                     <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
@@ -67,6 +71,6 @@
 </div>
 
 <!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-mItytQmDSg7ZtXV+J0NXD6cGy4jz2wv6/Zk0DQfS6EgYdI3GmkoPzSoZ2oJ8IsKq" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/YNfL/T5yyYX1YFfMJsm2Pz9FcoTKxUMTHTnZ2oJ8IsKq" crossorigin="anonymous"></script>
 </body>
 </html>
