@@ -12,7 +12,7 @@
     <!-- Кастомные стили -->
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
-<body class="login-body">
+<body class="student-body">
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -29,17 +29,28 @@
                     <ul class="list-group">
                         <li th:each="section : ${sections}"
                             th:classappend="${sectionStatusMap[section.id] == 'Пройдено' ? 'completed-section' : 'not-completed-section'}"
-                            class="list-group-item d-flex justify-content-between align-items-center">
-                            <div class="section-info">
-                                <span class="fw-bold" th:text="${section.title}">Section Title</span> -
-                                <span th:text="${section.description}">Section Description</span>
-                            </div>
+                            class="list-group-item d-flex justify-content-between align-items-center"
+                            th:style="${sectionStatusMap[section.id] == 'Пройдено' ? 'background-color: #F3E0D9;' : 'background-color: #FFDAB9;'}">
+
+                            <!-- Кнопка для открытия видео -->
+                            <form th:action="@{'/section/video/' + ${section.id}}" method="get" class="d-inline">
+                                <button type="submit" class="btn text-start p-0 m-0 section-button"
+                                        style="background: none; border: none; color: inherit; width: 100%;">
+                                    <span th:text="${section.title} + ' - ' + ${section.description}"></span>
+                                </button>
+                            </form>
 
                             <div class="d-flex align-items-center section-actions">
+                                <!-- Переключатель Пройдено/Не пройдено -->
                                 <form th:action="@{/student/complete-section}" method="post" class="d-inline">
                                     <input type="hidden" name="sectionId" th:value="${section.id}"/>
                                     <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-                                    <input type="submit" class="btn btn-status btn-sm" th:value="${sectionStatusMap[section.id] == 'Пройдено' ? 'Пройдено' : 'Не пройдено'}"/>
+
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" th:checked="${sectionStatusMap[section.id] == 'Пройдено'}"
+                                               onchange="this.form.submit()"/>
+                                        <span class="slider"></span>
+                                    </label>
                                 </form>
                             </div>
                         </li>
