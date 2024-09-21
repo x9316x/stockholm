@@ -30,18 +30,33 @@ body.login-body, body.student-body {
     border: none;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    padding: 40px; /* Увеличенные отступы внутри формы */
+    padding: 40px;
     width: 100%;
-    max-width: 500px; /* Увеличил максимальную ширину формы */
+    max-width: 500px; /* Фиксированная ширина формы */
     text-align: center;
 }
 
-.login-card .form-control {
-    margin-bottom: 20px; /* Отступы между полями формы */
+/* Поля и кнопка с одинаковой шириной */
+.login-card .form-control, .d-grid .btn {
+    width: 100%; /* Ширина 100% от контейнера */
+    max-width: 400px; /* Фиксированная максимальная ширина для всех элементов */
+    margin: 0 auto 20px; /* Центрирование элементов и отступы снизу */
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box; /* Учёт padding внутри ширины */
 }
 
+/* Кнопка в стиле */
 .d-grid .btn {
-    padding: 10px 20px; /* Увеличил отступы внутри кнопки */
+    background-color: #B2917B; /* Светло-коричневый цвет кнопки */
+    border-color: #B2917B;
+    color: #ffffff;
+    border-radius: 6px;
+}
+
+.d-grid .btn:hover {
+    background-color: #8A6B5C; /* Темнее при наведении */
+    border-color: #8A6B5C;
 }
 
 /* Стили для страницы студента */
