@@ -27,7 +27,9 @@
 
                     <h3 class="mb-3">Доступные разделы:</h3>
                     <ul class="list-group">
-                        <li th:each="section : ${sections}" class="list-group-item d-flex justify-content-between align-items-center">
+                        <li th:each="section : ${sections}"
+                            th:classappend="${sectionStatusMap[section.id] == 'Пройдено' ? 'completed-section' : 'not-completed-section'}"
+                            class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="section-info">
                                 <span class="fw-bold" th:text="${section.title}">Section Title</span> -
                                 <span th:text="${section.description}">Section Description</span>
