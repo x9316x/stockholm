@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Список Разделов</title>
+    <title>Добавить и Список Разделов</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/YNfL/T5yyYX1YFfMJsm2Pz9FcoTKxUMTHTnZ2" crossorigin="anonymous">
@@ -18,12 +18,28 @@
         <div class="col-md-8">
             <div class="card login-card mt-5">
                 <div class="card-body">
-                    <h1 class="text-center mb-4">Список Разделов</h1>
+                    <h1 class="text-center mb-4">Добавить Раздел</h1>
+                    <!-- Форма для добавления нового раздела -->
+                    <form action="/admin/sections/add" method="post" th:action="@{/admin/sections/add}">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Название раздела:</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Описание раздела:</label>
+                            <input type="text" class="form-control" id="description" name="description" required>
+                        </div>
 
-                    <div class="d-grid gap-2 mb-3">
-                        <a href="/admin/sections/add" class="btn btn-primary">Добавить раздел</a>
-                    </div>
+                        <!-- CSRF токен -->
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-block">Добавить раздел</button>
+                        </div>
+                    </form>
+
+                    <h1 class="text-center mt-5 mb-4">Список Разделов</h1>
+                    <!-- Список разделов -->
                     <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center" th:each="section : ${sections}">
                             <span th:text="${section.title}">Section Title</span> - <span th:text="${section.description}">Section Description</span>
