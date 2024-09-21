@@ -1,32 +1,57 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Sections List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Список Разделов</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/YNfL/T5yyYX1YFfMJsm2Pz9FcoTKxUMTHTnZ2" crossorigin="anonymous">
+
+    <!-- Кастомные стили -->
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
-<body>
-<h1>Список разделов</h1>
+<body class="login-body">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card login-card mt-5">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">Список Разделов</h1>
 
-<a href="/admin/sections/add">Добавить раздел</a>
+                    <div class="d-grid gap-2 mb-3">
+                        <a href="/admin/sections/add" class="btn btn-primary">Добавить раздел</a>
+                    </div>
 
-<ul>
-    <li th:each="section : ${sections}">
-        <span th:text="${section.title}">Section Title</span> - <span th:text="${section.description}">Section Description</span>
-        <a th:href="@{'/admin/sections/edit/' + ${section.id}}">Редактировать</a>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center" th:each="section : ${sections}">
+                            <span th:text="${section.title}">Section Title</span> - <span th:text="${section.description}">Section Description</span>
 
-        <!-- Форма для удаления -->
-        <form th:action="@{'/admin/sections/delete/' + ${section.id}}" method="post" style="display:inline;">
-            <!-- Добавляем скрытое поле для метода POST -->
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-            <input type="submit" value="Удалить">
-        </form>
-    </li>
-</ul>
+                            <div class="d-flex">
+                                <a th:href="@{'/admin/sections/edit/' + ${section.id}}" class="btn btn-warning btn-sm me-2">Редактировать</a>
 
-<!-- Кнопка выхода -->
-<form action="/logout" method="post" th:action="@{/logout}">
-    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-    <input type="submit" value="Выйти">
-</form>
+                                <!-- Форма для удаления -->
+                                <form th:action="@{'/admin/sections/delete/' + ${section.id}}" method="post" style="display:inline;">
+                                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                                    <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
 
+                    <!-- Кнопка выхода -->
+                    <form action="/logout" method="post" th:action="@{/logout}" class="mt-4">
+                        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                        <button type="submit" class="btn btn-danger btn-block">Выйти</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-mItytQmDSg7ZtXV+J0NXD6cGy4jz2wv6/Zk0DQfS6EgYdI3GmkoPzSoZ2oJ8IsKq" crossorigin="anonymous"></script>
 </body>
 </html>
