@@ -36,6 +36,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/css/**", "/js/**", "/img/**").permitAll() // Разрешение для статических ресурсов
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/student/**").hasRole("STUDENT")
                         .requestMatchers("/admin/sections/**").hasRole("ADMIN") // Защита для разделов

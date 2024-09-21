@@ -1,0 +1,61 @@
+/* Общие стили для страницы авторизации */
+body.login-body {
+    background-color: #F5E8E4; /* Светло-бежевый фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-card {
+    background-color: #F3E0D9; /* Светло-розовый фон карточки */
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px; /* Увеличим внутренние отступы */
+    width: 100%;
+    max-width: 400px; /* Ограничим максимальную ширину карточки */
+    text-align: center; /* Центрируем текст */
+}
+
+.login-card h2 {
+    color: #4A2C2A; /* Тёмно-коричневый цвет для заголовка */
+    margin-bottom: 20px; /* Добавим отступ ниже заголовка */
+}
+
+.form-control {
+    border-radius: 6px;
+    background-color: #fffdfc; /* Светло-кремовый фон для полей формы */
+    border: 1px solid #e3e3e3;
+    padding: 10px;
+    margin-bottom: 15px; /* Отступы между полями */
+    width: 100%; /* Устанавливаем 100% ширины для всех полей */
+    box-sizing: border-box; /* Гарантирует, что padding включен в ширину */
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Выравнивание всех элементов формы по ширине */
+}
+
+.btn-primary {
+    background-color: #B2917B; /* Светло-коричневый цвет кнопки */
+    border-color: #B2917B;
+    color: #ffffff;
+    border-radius: 6px;
+    padding: 10px 20px; /* Увеличим отступы внутри кнопки */
+    width: 100%; /* Кнопка будет на всю ширину */
+}
+
+.btn-primary:hover {
+    background-color: #8A6B5C; /* Приглушённый коричневый при наведении */
+    border-color: #8A6B5C;
+}
+
+.text-danger, .text-success {
+    margin-top: 10px; /* Отступы для сообщений об ошибках или успехе */
+    text-align: center;
+    display: block;
+}
